@@ -1,16 +1,17 @@
 import { Button, Col, Input, Row } from "antd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Employee } from "../models/Employee";
 import { useEffect, useState } from "react";
 import { useEmployee } from "../useEmployee";
 
 export default function Employees() {
   const {employeeId} = useParams();
+  const navigate = useNavigate();
 
   const {getEmployee, updateEmployee} = useEmployee();
 
   const [employee, setEmployee] = useState<Employee>({
-    id: "0",
+    id: 0,
     firstName: "",
     lastName: "",
     salary: 0
@@ -29,6 +30,11 @@ export default function Employees() {
     })
   }
 
+  const handleUpdateClick = async (employee: Employee) => {
+      await updateEmployee(employee);
+      navigate("/employees")
+  }
+
   return (
     <>
       <Row gutter={[8, 16]}>
@@ -42,9 +48,7 @@ export default function Employees() {
           <Input placeholder="Salary"name="salary" inputMode="decimal" value={employee?.salary}  onChange={handleChange}/>
         </Col>
         <Col span={12}>
-          <Button block type="primary" onClick={async () => {
-            await updateEmployee(employee);
-          } }>
+          <Button block type="primary" onClick={() => handleUpdateClick(employee)}>
             Update
           </Button>
         </Col>

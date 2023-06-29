@@ -35,7 +35,7 @@ export default function Root() {
             items={[
               {
                 key: "1",
-                icon: <Link to={"/"}><HomeOutlined /></Link>,
+                icon: <Link to={"/home"}><HomeOutlined /></Link>,
                 label: "Home",
               },
               {

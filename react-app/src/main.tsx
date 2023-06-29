@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Root from './routes/root'
 import ErrorPage from './error-page'
-import Employees from './routes/contacts'
-import EmployeeList from './components/EmployeeList'
+import Employees from './routes/employeeUpdate'
+import EmployeeList from './routes/employeeList'
 import EmployeeAdd from './routes/employeeAdd'
+import Home from './routes/home'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: "home",
+        element: <Home />
+      },
       {
         path: "employees",
         element: <EmployeeList />

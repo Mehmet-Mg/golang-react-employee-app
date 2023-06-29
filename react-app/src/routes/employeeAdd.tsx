@@ -2,12 +2,14 @@ import { Button, Col, Input, Row } from "antd";
 import { Employee } from "../models/Employee";
 import { useState } from "react";
 import { useEmployee } from "../useEmployee";
+import { useNavigate } from "react-router-dom";
 
 
 export default function EmployeeAdd() {
+  const navigate = useNavigate();
   const {addEmployee} = useEmployee();
   const [employee, setEmployee] = useState<Employee>({
-    id: "0",
+    id: 0,
     firstName: "",
     lastName: "",
     salary: 0
@@ -22,6 +24,7 @@ export default function EmployeeAdd() {
 
   const handleAddClick = async () => {
     await addEmployee(employee)
+    navigate("/employees");
   }
 
   return (
