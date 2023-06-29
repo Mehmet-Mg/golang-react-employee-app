@@ -15,7 +15,7 @@ type Repository[T any] interface {
 	Migrate() error
 	Create(entity T) (*T, error)
 	All() ([]T, error)
-	GetById(id uint) (*T, error)
-	Update(id uint, updated T) (*T, error)
-	Delete(id uint) error
+	GetById(id uint64) (*T, error)
+	Update(id uint64, updated T) (*T, error)
+	Delete(id uint64) error
 }

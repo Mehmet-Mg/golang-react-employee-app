@@ -1,6 +1,8 @@
 package app
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func (app *App) Routes(router *gin.Engine) {
 	router.GET("/employees", app.GetAllEmployees)
