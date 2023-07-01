@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function EmployeeList() {
   const navigate = useNavigate();
-  const { listEmployee, getEmployeeData, isLoading, deleteEmployee } =
+  const { listEmployee, getEmployeeData, isLoading, deleteEmployee, contextHolder } =
     useEmployee();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const employeeId = useRef<number>(0);
@@ -21,6 +21,7 @@ export default function EmployeeList() {
 
   return (
     <>
+    {contextHolder}
     <Modal
     title="Delete Employee"
     open={openModal}

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function EmployeeAdd() {
   const navigate = useNavigate();
-  const {addEmployee} = useEmployee();
+  const {addEmployee, contextHolder} = useEmployee();
   const [employee, setEmployee] = useState<Employee>({
     id: 0,
     firstName: "",
@@ -30,6 +30,7 @@ export default function EmployeeAdd() {
 
   return (
     <>
+    {contextHolder}
       <Row gutter={[8, 16]}>
         <Col span={24}>
           <Input placeholder="First Name" name="firstName" value={employee?.firstName} onChange={handleChange}/>

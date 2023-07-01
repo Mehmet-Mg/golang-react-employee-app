@@ -1,17 +1,7 @@
 import { useState } from "react";
 import { Employee } from "./models/Employee";
 import axios from "axios";
-import { notification } from "antd";
-
-const openNotification = (title: string, message: string, ) => {
-    notification.open({
-      message: title,
-      description: message,
-        onClick: () => {
-        console.log('Notification Clicked!');
-      },
-    });
-  };
+import { message } from "antd";
 
 export function useEmployee() { 
     const [listEmployee, setEmployeeList] = useState<Employee[]>([]);
@@ -23,6 +13,29 @@ export function useEmployee() {
         description: "",
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const success = () => {
+        messageApi.open({
+          type: 'success',
+          content: 'Succesfull',
+        });
+      };
+    
+      const error = () => {
+        messageApi.open({
+          type: 'error',
+          content: 'This is an error message',
+        });
+      };
+    
+      const warning = () => {
+        messageApi.open({
+          type: 'warning',
+          content: 'This is a warning message',
+        });
+      };
+
 
     const getEmployeeData = async () => {
         setIsLoading(true);
@@ -39,24 +52,40 @@ export function useEmployee() {
     }
 
     const updateEmployee = async (employee: Employee) => {
-        employee.salary = parseFloat(employee.salary.toString())
-        await axios.put(`http://localhost:8080/employees/${employee.id}`, employee)
+        try {
+            employee.salary = parseFloat(employee.salary.toString())
+            await axios.put(`http://localhost:8080/employees/${employee.id}`, employee)
+            success()
+        } catch(ex) {
+            error()
+        }
     }
 
     const addEmployee = async (employee: Employee) => {
-        employee.salary = parseFloat(employee.salary.toString())
-        await axios.post(`http://127.0.0.1:8080/employees`, employee)
+        try {
+            employee.salary = parseFloat(employee.salary.toString())
+            await axios.post(`http://127.0.0.1:8080/employees`, employee)
+            success()
+        } catch (ex) {
+            error()
+        }
     }
 
     const deleteEmployee = async (employeeId: number) => {
-        await axios.delete(`http://localhost:8080/employees/${employeeId}`)
-        setEmployeeList(list => list.filter(emp => emp.id !== employeeId))
+        try {
+            await axios.delete(`http://localhost:8080/employees/${employeeId}`)
+            setEmployeeList(list => list.filter(emp => emp.id !== employeeId))
+            success()
+        } catch(ex) {
+            error()
+        }
     }
 
     return {
       listEmployee,
       selectedEmployee,
       isLoading,
+      contextHolder,
       setSelectedEmpolyee,
       getEmployeeData,
       getEmployee,
