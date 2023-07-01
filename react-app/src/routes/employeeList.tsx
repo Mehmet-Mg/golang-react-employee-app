@@ -8,13 +8,13 @@ export default function EmployeeList() {
   const { listEmployee, getEmployeeData, isLoading, deleteEmployee } =
     useEmployee();
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const employeeId = useRef<string>("");
+  const employeeId = useRef<number>(0);
 
   useEffect(() => {
     getEmployeeData().then();
   }, []);
 
-  const handleDeleteClick = async (employeeId: string) => {
+  const handleDeleteClick = async (employeeId: number) => {
     await deleteEmployee(employeeId);
     setOpenModal(false);
   };
@@ -61,7 +61,7 @@ export default function EmployeeList() {
                   {employee.firstName} {employee.lastName}
                 </a>
               }
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              description={employee.description}
             />
             <div>$ {employee.salary}</div>
           </Skeleton>

@@ -14,7 +14,8 @@ export default function Employees() {
     id: 0,
     firstName: "",
     lastName: "",
-    salary: 0
+    salary: 0,
+    description: "",
   });
 
   useEffect(() =>{
@@ -47,13 +48,16 @@ export default function Employees() {
         <Col span={24}>
           <Input placeholder="Salary"name="salary" inputMode="decimal" value={employee?.salary}  onChange={handleChange}/>
         </Col>
+        <Col span={24}>
+          <Input placeholder="Description" name="description" inputMode="text" value={employee?.description}  onChange={handleChange}/>
+        </Col>
         <Col span={12}>
           <Button block type="primary" onClick={() => handleUpdateClick(employee)}>
             Update
           </Button>
         </Col>
         <Col span={12}>
-          <Button block>Cancel</Button>
+          <Button block onClick={() => navigate("/employees")}>Cancel</Button>
         </Col>
       </Row>
     </>

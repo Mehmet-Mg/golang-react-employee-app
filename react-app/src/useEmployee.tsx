@@ -16,10 +16,11 @@ const openNotification = (title: string, message: string, ) => {
 export function useEmployee() { 
     const [listEmployee, setEmployeeList] = useState<Employee[]>([]);
     const [selectedEmployee, setSelectedEmpolyee] = useState<Employee>({
-        id: "0",
+        id: 0,
         firstName: "",
         lastName: "",
-        salary: 0
+        salary: 0,
+        description: "",
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -43,18 +44,13 @@ export function useEmployee() {
     }
 
     const addEmployee = async (employee: Employee) => {
-            employee.salary = parseFloat(employee.salary.toString())
-            const {status, data} = await axios.post(`http://127.0.0.1:8080/employees`, employee)
-            debugger;
+        employee.salary = parseFloat(employee.salary.toString())
+        await axios.post(`http://127.0.0.1:8080/employees`, employee)
     }
 
-    const deleteEmployee = async (employeeId: string) => {
+    const deleteEmployee = async (employeeId: number) => {
         await axios.delete(`http://localhost:8080/employees/${employeeId}`)
-            .then(resp => {
-                if(resp.status === 200) {
-                    setEmployeeList(listEmployee.filter(t => t.id !== employeeId))
-                }
-            })
+        setEmployeeList(list => list.filter(emp => emp.id !== employeeId))
     }
 
     return {

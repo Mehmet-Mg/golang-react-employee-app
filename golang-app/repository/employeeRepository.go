@@ -21,7 +21,7 @@ func (r *EmployeRepository) Migrate() error {
 }
 
 func (r *EmployeRepository) Create(employee models.Employee) (*models.Employee, error) {
-	err := r.db.Create(employee).Error
+	err := r.db.Create(&employee).Error
 
 	if err != nil {
 		return nil, ErrDuplicate

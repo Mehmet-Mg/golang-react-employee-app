@@ -12,7 +12,8 @@ export default function EmployeeAdd() {
     id: 0,
     firstName: "",
     lastName: "",
-    salary: 0
+    salary: 0,
+    description: "",
   });
 
   const handleChange = (event: any) => {

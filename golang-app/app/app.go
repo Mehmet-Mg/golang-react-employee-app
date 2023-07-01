@@ -2,10 +2,10 @@ package app
 
 import (
 	"example/employee-app/config"
+	"example/employee-app/db"
 	"example/employee-app/repository"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -18,12 +18,8 @@ func Run(cfg *config.Config) {
 	router := gin.Default()
 	app := new(App)
 
-	db, err := gorm.Open(mysql.Open(cfg.ConnectionString), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
-	app.db = db
-	app.repo = repository.NewEmployeeRepository(db)
+	app.db = db.Connect(cfg)
+	app.repo = repository.NewEmployeeRepository(app.db)
 	if err := app.repo.Migrate(); err != nil {
 		panic(err)
 	}
