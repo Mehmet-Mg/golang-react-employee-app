@@ -3,15 +3,15 @@ package app
 import (
 	"example/employee-app/config"
 	"example/employee-app/db"
-	"example/employee-app/repository"
+	"example/employee-app/repositories"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 type App struct {
-	db   *gorm.DB
-	repo *repository.EmployeRepository
+	db      *gorm.DB
+	empRepo *repositories.GormEmployeeRepository
 }
 
 func Run(cfg *config.Config) {
@@ -19,10 +19,9 @@ func Run(cfg *config.Config) {
 	app := new(App)
 
 	app.db = db.Connect(cfg)
-	app.repo = repository.NewEmployeeRepository(app.db)
-	if err := app.repo.Migrate(); err != nil {
-		panic(err)
-	}
+	db.Migrate(app.db)
+
+	app.empRepo = repositories.NewGormEmployeeRepository(app.db)
 
 	app.UseCors(router)
 	app.Routes(router)

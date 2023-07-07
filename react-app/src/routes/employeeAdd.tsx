@@ -41,6 +41,15 @@ export default function EmployeeAdd() {
         <Col span={24}>
           <Input placeholder="Salary"name="salary" inputMode="decimal" value={employee?.salary}  onChange={handleChange}/>
         </Col>
+        <Col span={24}>
+          <Input
+            placeholder="Description"
+            name="description"
+            inputMode="text"
+            value={employee?.description}
+            onChange={handleChange}
+          />
+        </Col>
         <Col span={12}>
           <Button block type="primary" onClick={handleAddClick}>
             Add

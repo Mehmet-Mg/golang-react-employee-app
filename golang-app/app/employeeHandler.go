@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"example/employee-app/models"
 	"fmt"
 	"net/http"
@@ -9,14 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (app *App) AddOneEmployee(c *gin.Context) {
+func (app *App) CreateEmployee(c *gin.Context) {
 	employee := &models.Employee{}
 	if err := c.BindJSON(employee); err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	createdEmployee, err := app.repo.Create(*employee)
+	createdEmployee, err := app.empRepo.CreateEmployee(context.Background(), employee)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -27,7 +28,7 @@ func (app *App) AddOneEmployee(c *gin.Context) {
 }
 
 func (app *App) GetAllEmployees(c *gin.Context) {
-	employees, err := app.repo.All()
+	employees, err := app.empRepo.GetAllEmployees(context.Background())
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -38,7 +39,7 @@ func (app *App) GetAllEmployees(c *gin.Context) {
 func (app *App) GetEmployeeByID(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 
-	employee, err := app.repo.GetById(id)
+	employee, err := app.empRepo.GetEmployeeById(context.Background(), id)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -50,7 +51,7 @@ func (app *App) GetEmployeeByID(c *gin.Context) {
 func (app *App) DeleteEmployeeById(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 
-	err := app.repo.Delete(id)
+	err := app.empRepo.DeleteEmployee(context.Background(), id)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -61,6 +62,7 @@ func (app *App) DeleteEmployeeById(c *gin.Context) {
 }
 
 func (app *App) UpdateEmployee(c *gin.Context) {
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 	var newEmployee models.Employee
 
 	if err := c.BindJSON(&newEmployee); err != nil {
@@ -68,7 +70,7 @@ func (app *App) UpdateEmployee(c *gin.Context) {
 		return
 	}
 
-	updated, err := app.repo.Update(newEmployee.ID, newEmployee)
+	updated, err := app.empRepo.UpdateEmployee(context.Background(), id, &newEmployee)
 
 	if err != nil {
 		fmt.Println(err.Error())
